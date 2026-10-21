@@ -11,10 +11,22 @@ jobs:
   sync:
     runs-on: ubuntu-24.04
     steps:
-      - name: Sync master with upstream
-        uses: repo-sync/github-sync@v2
+      # Step 1: Fixes the "not a git repository" error by checking out your fork
+      - name: Checkout Forked Repository
+        uses: actions/checkout@v4
         with:
-          source_repo: sefinek/Malicious-IP-Addresses
-          source_branch: "main" # Change to "master" if the original repo uses master
-          destination_branch: "main" # The branch in your fork you want to sync
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Ensures git history is retrieved properly for the sync
+          fetch-depth: 0 
+
+      # Step 2: Syncs your fork with sefinek's upstream repository
+      - name: Sync with Upstream
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        with:
+          upstream_sync_repo: sefinek/Malicious-IP-Addresses
+          upstream_sync_branch: main
+          target_sync_branch: main
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          
+          # Optional: Set to true if you want to force sync despite merge conflicts
+          test_mode: false
