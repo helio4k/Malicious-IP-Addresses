@@ -21,7 +21,7 @@ jobs:
 
       # Step 2: Syncs your fork with sefinek's upstream repository
       - name: Sync with Upstream
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        uses: aormsby/Fork-Sync-With-Upstream-action@v4.0
         with:
           upstream_sync_repo: sefinek/Malicious-IP-Addresses
           upstream_sync_branch: main
